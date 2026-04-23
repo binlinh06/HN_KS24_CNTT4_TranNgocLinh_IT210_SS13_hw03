@@ -1,0 +1,29 @@
+--Vì sao thiếu CascadeType.ALL gây lỗi?
+
+Lỗi:
+
+TransientObjectException: object references an unsaved transient instance
+
+Nghĩa là:
+
+Bạn lưu Prescription
+Nhưng bên trong có PrescriptionDetail chưa được lưu
+
+Hibernate không tự lưu object con nếu không có cascade
+
+Kết luận:
+
+Không có CascadeType.ALL
+→ phải save từng detail thủ công
+→ nếu không sẽ lỗi
+--Vì sao dùng FetchType.LAZY?
+
+ Vì:
+
+Một đơn thuốc có thể có rất nhiều chi tiết
+Nếu dùng EAGER → load hết ngay → nặng, chậm
+
+ LAZY:
+
+Chỉ load khi cần (getDetails())
+→ tối ưu hiệu năng
